@@ -1,0 +1,157 @@
+{
+    "_version": "1.65.0",
+    "sap.app": {
+        "id": "financialhub",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:basic",
+            "version": "1.16.4",
+            "toolsId": "95f66785-7b4d-42f4-abb1-958f43e132b2"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/v2/catalog/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/mainService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": false,
+        "dependencies": {
+            "minUI5Version": "1.133.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "financialhub.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {}
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "transition": "slide",
+                "type": "View",
+                "viewType": "XML",
+                "path": "financialhub.view",
+                "async": true,
+                "viewPath": "financialhub.view"
+            },
+            "routes": [
+                {
+                    "name": "View1",
+                    "pattern": "",
+                    "target": [
+                        "TargetView1"
+                    ]
+                },
+                {
+                    "name": "View2",
+                    "pattern": "View2",
+                    "target": [
+                        "TargetView2"
+                    ]
+                },
+                {
+                    "name": "View3",
+                    "pattern": "View3",
+                    "target": [
+                        "TargetView3"
+                    ]
+                },
+                {
+                    "name": "View4",
+                    "pattern": "View4",
+                    "target": [
+                        "TargetView4"
+                    ]
+                },
+                {
+                    "name": "View5",
+                    "pattern": "View5",
+                    "target": [
+                        "TargetView5"
+                    ]
+                }
+            ],
+            "targets": {
+                "TargetView1": {
+                    "id": "View1",
+                    "name": "View1"
+                },
+                "TargetView2": {
+                    "id": "View2",
+                    "name": "View2"
+                },
+                "TargetView3": {
+                    "id": "View3",
+                    "name": "View3"
+                },
+                "TargetView4": {
+                    "id": "View4",
+                    "name": "View4"
+                },
+                "TargetView5": {
+                    "id": "View5",
+                    "name": "View5"
+                }
+            }
+        },
+        "rootView": {
+            "viewName": "financialhub.view.App",
+            "type": "XML",
+            "id": "App"
+        }
+    }
+}

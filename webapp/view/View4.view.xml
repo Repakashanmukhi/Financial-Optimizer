@@ -1,0 +1,7 @@
+<mvc:View controllerName="financialhub.controller.View4"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page4" title="{i18n>title}" showNavButton="true" navButtonPress="NavBack">
+        <Text text="About Wallet History"></Text>
+    </Page>
+</mvc:View>

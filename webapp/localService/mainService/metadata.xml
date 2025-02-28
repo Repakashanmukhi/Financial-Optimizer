@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="CatalogService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="employeemaster" EntityType="CatalogService.employeemaster"/>
+                <EntitySet Name="bankmaster" EntityType="CatalogService.bankmaster"/>
+            </EntityContainer>
+            <EntityType Name="employeemaster">
+                <Key>
+                    <PropertyRef Name="EmpID"/>
+                </Key>
+                <Property Name="EmpID" Type="Edm.String" MaxLength="20" Nullable="false"/>
+                <Property Name="EmpName" Type="Edm.String" MaxLength="20"/>
+                <Property Name="EmpCont" Type="Edm.String" MaxLength="20"/>
+                <Property Name="EmpEmail" Type="Edm.String" MaxLength="100"/>
+                <Property Name="EmpAdress" Type="Edm.String" MaxLength="200"/>
+                <Property Name="EmpDesig" Type="Edm.String" MaxLength="25"/>
+                <Property Name="EmpExp" Type="Edm.String" MaxLength="30"/>
+                <Property Name="EmpIncome" Type="Edm.String" MaxLength="30"/>
+                <Property Name="EmpCibil" Type="Edm.String" MaxLength="30"/>
+            </EntityType>
+            <EntityType Name="bankmaster">
+                <Key>
+                    <PropertyRef Name="BID"/>
+                </Key>
+                <Property Name="BID" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="BankName" Type="Edm.String" MaxLength="100"/>
+                <Property Name="BankType" Type="Edm.String" MaxLength="10"/>
+                <Property Name="Bank_EST" Type="Edm.String" MaxLength="20"/>
+                <Property Name="BANK_ROI" Type="Edm.String" MaxLength="10"/>
+                <Property Name="BANK_MAX_LOAN" Type="Edm.String" MaxLength="20"/>
+                <Property Name="BANK_MIN_LOAN" Type="Edm.String" MaxLength="20"/>
+                <Property Name="BANK_MA_TEN" Type="Edm.String" MaxLength="15"/>
+                <Property Name="BANK_PREClosure" Type="Edm.String" MaxLength="15"/>
+                <Property Name="BANK_PROCESSTYM" Type="Edm.String" MaxLength="20"/>
+            </EntityType>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

@@ -1,0 +1,63 @@
+<mvc:View controllerName="financialhub.controller.View3"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page3" class="myPageTitle">
+
+        <subHeader>
+            <Bar>
+                <contentLeft>
+                    <Button icon="sap-icon://nav-back" press="NavBack" class="myBackButton"></Button>
+                </contentLeft>
+            </Bar>
+        </subHeader>
+        <Table id="employeeTable" items="{/bankmaster}" mode="MultiSelect" selectionChange="oSelectedItems" class="myTable">
+            <columns>
+                <Column>
+                    <Text text="BID"/>
+                </Column>
+                <Column>
+                    <Text text="BankName"/>
+                </Column>
+                <Column>
+                    <Text text="BankType"/>
+                </Column>
+                <Column>
+                    <Text text="Bank_EST"/>
+                </Column>
+                <Column>
+                    <Text text="Rate Of Interest"/>
+                </Column>
+                <Column>
+                    <Text text="Maximum Loan"/>
+                </Column>
+                <Column>
+                    <Text text="Minimum Loan"/>
+                </Column>
+                <Column>
+                    <Text text="BANK_MA_TEN"/>
+                </Column>
+                <Column>
+                    <Text text="BANK_PreClosure"/>
+                </Column>
+                <Column>
+                    <Text text="Process Time"/>
+                </Column>
+            </columns>
+            <ColumnListItem>
+                <cells>
+                    <Text text="{BID}"/>
+                    <Text text="{BankName}"/>
+                    <Text text="{BankType}"/>
+                    <Text text="{Bank_EST}"/>
+                    <Text text="{BANK_ROI}"/>
+                    <Text text="{BANK_MAX_LOAN}"/>
+                    <Text text="{BANK_MIN_LOAN}"/>
+                    <Text text="{BANK_MA_TEN}"/>
+                    <Text text="{BANK_PREClosure}"/>
+                    <Text text="{BANK_PROCESSTYM}"/>
+                </cells>
+            </ColumnListItem>
+        </Table>
+    </Page>
+</mvc:View>
+ 

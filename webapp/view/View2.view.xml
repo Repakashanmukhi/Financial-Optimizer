@@ -1,0 +1,57 @@
+<mvc:View controllerName="financialhub.controller.View2"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m" class="customViewBackground">
+
+    <Page id="page2" title="{i18n>title}" navButtonPress="onNavBack" showNavButton="true" class="customPageBackground">
+        <content>
+            <form:SimpleForm id="simpleForm" class="customFormBackground">
+                <Label text="Month" />
+                <Input id="MonthInput" placeholder="Enter the month..." class="customInput"/>
+                
+                <Label text="Monthly Salary" />
+                <Input id="salaryInput" type="Number" placeholder="Enter your salary..." class="customInput"/>
+                
+                <Label text="Fixed Expenses (e.g., rent, bills)" />
+                <Input id="fixedExpensesInput" type="Number" placeholder="Enter fixed expenses..." class="customInput"/>
+                
+                <Label text="Variable Expenses (e.g., groceries, entertainment)" />
+                <Input id="variableExpensesInput" type="Number" placeholder="Enter variable expenses..." class="customInput"/>
+                
+                <Label text="Savings Goal (%)" />
+                <Input id="savingsGoalInput" type="Number" placeholder="Enter savings goal..." class="customInput"/>
+
+            </form:SimpleForm>
+            <VBox class="VBox">
+            <Button text="Predict Now..!"  press="onPredictExpenses" class="customButton"/>
+            <Label text="Predicted Expenses for Current Month:" class="customText"/>
+                <Text id="predictedExpensesText" />
+            <Label text="Financial Status" class="customText"/>
+                <Text id="profitLossText" />
+                <Text id="RemainingAmount" />
+            </VBox>
+            <Table id="display" items="{/oModel}" class="customTableBackground">
+                <columns>
+                    <Column>
+                        <Text text="Month"/>
+                    </Column>
+                    <Column>
+                        <Text text="Expenses"/>
+                    </Column>
+                    <Column>
+                        <Text text="Remaining Amount"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem class="customTableRowBackground">
+                        <cells>
+                            <Text text=""/>
+                            <Text id="pexpenses"/>
+                            <Text id="pdiff"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>
