@@ -131,3 +131,74 @@ VBox {
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
     gap: 10px; /* Adds space between child elements */
 }
+.profitLossStatus {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: green; /* Default color for profit */
+}
+
+.profitLossStatus[text*="Loss"] {
+    color: red; /* Color for loss */
+}
+
+.profitLossStatus[text*="Break-even"] {
+    color: blue; /* Color for break-even */
+}
+
+/* Custom CSS for the Table */
+.myTable .sapMListTblHeader {
+    background-color: #f7f7f7; /* Light gray background for the header */
+    font-weight: bold; /* Bold text for the header */
+    color: #333333; /* Dark gray text color */
+}
+
+.myTable .sapMListTblCell {
+    padding: 0.75rem; /* Add padding to table cells */
+    border-bottom: 1px solid #ddd; /* Add a border between rows */
+}
+
+.myTable .sapMListTblRow {
+    background-color: #ffffff; /* White background for rows */
+}
+
+.myTable .sapMListTblRow:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+}
+
+.myTable .sapMListTblSelRow {
+    background-color: #e0f7fa; /* Light blue background for selected rows */
+}
+
+.myTable .sapMListTblCell.sapMListTblCellNoData {
+    text-align: center; /* Center-align "No Data" message */
+    font-style: italic; /* Italicize "No Data" message */
+    color: #666666; /* Gray color for "No Data" message */
+}
+
+/* Styling for the table header */
+.myTable .sapMListTblHeader .sapMListTblCell {
+    border-bottom: 2px solid #0070b1; /* Blue border for the header */
+}
+
+/* Styling for alternating row colors */
+.myTable .sapMListTblRow:nth-child(even) {
+    background-color: #f9f9f9; /* Light gray background for even rows */
+}
+
+/* Styling for the toolbar */
+.myTable .sapMTB-Transparent-CTX {
+    background-color: #f7f7f7; /* Light gray background for the toolbar */
+    border-bottom: 1px solid #ddd; /* Add a border below the toolbar */
+}
+
+/* Styling for the search field */
+.myTable .sapMSF {
+    width: 200px; /* Set a fixed width for the search field */
+    margin-right: 1rem; /* Add margin to the right of the search field */
+}
+
+/* Styling for the filter and sort buttons */
+.myTable .sapMBtn {
+    margin-left: 0.5rem; /* Add margin between buttons */
+}
+

@@ -1,7 +1,31 @@
-<mvc:View controllerName="financialhub.controller.View4"
+<mvc:View
+    controllerName="financialhub.controller.View4"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Page id="page4" title="{i18n>title}" showNavButton="true" navButtonPress="NavBack">
-        <Text text="About Wallet History"></Text>
+    xmlns="sap.m"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:layout="sap.ui.layout"
+    xmlns:core="sap.ui.core">
+    <Page
+        title="Monthly Data Chart"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <!-- VizFrame for Chart -->
+                <viz:VizFrame
+                    id="idVizFrame"
+                    uiConfig="{applicationSet:'fiori'}"
+                    height="400px"
+                    width="100%"
+                    vizType="stacked_column">
+                    <viz:dataset>
+                        <!-- Dataset will be bound dynamically in the controller -->
+                    </viz:dataset>
+                    <viz:feeds>
+                        <!-- Feeds will be added dynamically in the controller -->
+                    </viz:feeds>
+                </viz:VizFrame>
+            </VBox>
+        </content>
     </Page>
 </mvc:View>

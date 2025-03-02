@@ -1,63 +1,96 @@
-<mvc:View controllerName="financialhub.controller.View3"
+<mvc:View
+    controllerName="financialhub.controller.View3"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Page id="page3" class="myPageTitle">
-
-        <subHeader>
-            <Bar>
-                <contentLeft>
-                    <Button icon="sap-icon://nav-back" press="NavBack" class="myBackButton"></Button>
-                </contentLeft>
-            </Bar>
-        </subHeader>
-        <Table id="employeeTable" items="{/bankmaster}" mode="MultiSelect" selectionChange="oSelectedItems" class="myTable">
-            <columns>
-                <Column>
-                    <Text text="BID"/>
-                </Column>
-                <Column>
-                    <Text text="BankName"/>
-                </Column>
-                <Column>
-                    <Text text="BankType"/>
-                </Column>
-                <Column>
-                    <Text text="Bank_EST"/>
-                </Column>
-                <Column>
-                    <Text text="Rate Of Interest"/>
-                </Column>
-                <Column>
-                    <Text text="Maximum Loan"/>
-                </Column>
-                <Column>
-                    <Text text="Minimum Loan"/>
-                </Column>
-                <Column>
-                    <Text text="BANK_MA_TEN"/>
-                </Column>
-                <Column>
-                    <Text text="BANK_PreClosure"/>
-                </Column>
-                <Column>
-                    <Text text="Process Time"/>
-                </Column>
-            </columns>
-            <ColumnListItem>
-                <cells>
-                    <Text text="{BID}"/>
-                    <Text text="{BankName}"/>
-                    <Text text="{BankType}"/>
-                    <Text text="{Bank_EST}"/>
-                    <Text text="{BANK_ROI}"/>
-                    <Text text="{BANK_MAX_LOAN}"/>
-                    <Text text="{BANK_MIN_LOAN}"/>
-                    <Text text="{BANK_MA_TEN}"/>
-                    <Text text="{BANK_PREClosure}"/>
-                    <Text text="{BANK_PROCESSTYM}"/>
-                </cells>
-            </ColumnListItem>
-        </Table>
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Page
+        id="page3"
+        title="Bank Master Data"
+        showNavButton="true"
+        navButtonPress="NavBack"
+        class="sapUiResponsivePadding">
+        <headerContent>
+            <!-- Search Field -->
+            <SearchField
+                id="searchField"
+                width="auto"
+                placeholder="Search Bank Name"
+                search="onSearch"
+                class="sapUiSmallMarginEnd" />
+        </headerContent>
+        <content>
+            <!-- Table with Filter and Sort Options -->
+            <Table
+                id="employeeTable"
+                items="{/bankmaster}"
+                mode="MultiSelect"
+                selectionChange="onSelectionChange"
+                class="sapUiResponsiveMargin">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title text="Bank Details" level="H2" />
+                        <ToolbarSpacer />
+                        <!-- Filter Button -->
+                        <Button
+                            icon="sap-icon://filter"
+                            tooltip="Filter"
+                            press="onFilterPress" />
+                        <!-- Sort Button -->
+                        <Button
+                            icon="sap-icon://sort"
+                            tooltip="Sort"
+                            press="onSortPress" />
+                    </Toolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="BID" />
+                    </Column>
+                    <Column>
+                        <Text text="Bank Name" />
+                    </Column>
+                    <Column>
+                        <Text text="Bank Type" />
+                    </Column>
+                    <Column>
+                        <Text text="Established" />
+                    </Column>
+                    <Column>
+                        <Text text="Rate of Interest" />
+                    </Column>
+                    <Column>
+                        <Text text="Max Loan" />
+                    </Column>
+                    <Column>
+                        <Text text="Min Loan" />
+                    </Column>
+                    <Column>
+                        <Text text="Tenure" />
+                    </Column>
+                    <Column>
+                        <Text text="Pre-Closure" />
+                    </Column>
+                    <Column>
+                        <Text text="Process Time" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{BID}" />
+                            <Text text="{BankName}" />
+                            <Text text="{BankType}" />
+                            <Text text="{Bank_EST}" />
+                            <Text text="{BANK_ROI}" />
+                            <Text text="{BANK_MAX_LOAN}" />
+                            <Text text="{BANK_MIN_LOAN}" />
+                            <Text text="{BANK_MA_TEN}" />
+                            <Text text="{BANK_PREClosure}" />
+                            <Text text="{BANK_PROCESSTYM}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
     </Page>
 </mvc:View>
- 

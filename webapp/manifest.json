@@ -67,6 +67,30 @@
                 "dataSource": "mainService",
                 "preload": true,
                 "settings": {}
+            },
+            "userInputModel": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {
+                    "salary": "",
+                    "billPayments": "",
+                    "grocery": "",
+                    "entertainment": "",
+                    "hospitality": "",
+                    "variableExpenses": "",
+                    "savings": "",
+                    "userExpenditureTotal": "",
+                    "profitLossStatus": "",
+                    "suggestions": "",
+                    "predictedValues": [],
+                    "totalPredictedExpenses": "",
+                    "remainingSalary": ""
+                }
+            },
+            "expensesModel": {
+                "type": "sap.ui.model.json.JSONModel",
+                "settings": {
+                    "PredictedExpenses": []
+                }
             }
         },
         "resources": {
