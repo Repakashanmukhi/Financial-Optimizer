@@ -6,7 +6,7 @@
     xmlns:layout="sap.ui.layout"
     xmlns:core="sap.ui.core">
     <Page
-        title="Monthly Data Chart"
+        title="View your wallet transactions and history-"
         showNavButton="true"
         navButtonPress="onNavBack">
         <content>

@@ -2,19 +2,57 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
 
-    <Page id="page1" title="{i18n>title}"  class="sapMIBar.sapMHeader-CTX" >
-        <content>
-            <VBox class="customVBoxBackground">
-                <List headerText="options" class="customListBackground">
-                    <items>
-                        <StandardListItem title="Expenditure Prediction" type="Active" press="onEP" icon="sap-icon://money-bills"/>
-                        <StandardListItem title="loans" type="Active" press="onLoans" icon="sap-icon://loan"/>
-                        <StandardListItem title="walletHistory" type="Active" press="onWH" icon="sap-icon://wallet"/>
-                        <StandardListItem title="feedback" type="Active" press="onFed" icon="sap-icon://feedback"/>
-                    </items>
-                </List>
-            </VBox>
-        </content>
+    <Page id="page1" title="{i18n>title}">
+        <List headerText="Dashboard Options" class="customList">
+            
+            <ObjectListItem
+                title="Financial Forecast"
+                icon="sap-icon://money-bills"
+                type="Active"
+                press=".onExpenditurePrediction"
+                intro="Stay ahead of your budget- Forecast your spending today!" />
+
+            <ObjectListItem
+                title="Credit Solutions"
+                icon="sap-icon://loan"
+                type="Active"
+                press=".onLoans"
+                intro="Empowering your dreams- Find the perfect loan for you!" />
+
+            <ObjectListItem
+                title="Account Activity"
+                icon="sap-icon://accounting-document-verification"
+                type="Active"
+                press=".onWalletHistory"
+                intro="Stay organised- Keep track of your Wallet activity!" />
+
+            <ObjectListItem
+                title="Feedback"
+                icon="sap-icon://feedback"
+                type="Active"
+                press=".openFeedbackDialog"
+                intro="Your feedback shapes our future- share it today!" />
+        </List>
+        <Dialog id="feedbackDialog" title="We Value Your Feedback">
+        <VBox class="feedbackContainer">
+            <RatingIndicator id="rating" maxValue="5" tooltip="Rate us" />
+            <TextArea id="feedbackText" placeholder="Write your feedback here..." rows="4" />
+        </VBox>
+        <endButton>
+            <Button text="Submit" type="Emphasized" press=".submitFeedback" />
+        </endButton>
+        <beginButton>
+            <Button text="Cancel" press=".closeFeedbackDialog" />
+        </beginButton>
+    </Dialog>
+    <Dialog id="thankYouDialog" title="Thank You">
+        <VBox class="thankYouContainer">
+            <Text text="Thank you for your valuable feedback!" />
+        </VBox>
+        <endButton>
+            <Button text="Close" type="Emphasized" press=".closeThankYouDialog" />
+        </endButton>
+    </Dialog>
     </Page>
 </mvc:View>
    

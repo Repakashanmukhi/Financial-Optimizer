@@ -1,13 +1,11 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/m/MessageBox",
-    "sap/viz/ui5/data/FlattenedDataset",
-    "sap/viz/ui5/controls/common/feeds/FeedItem"
-], function (Controller, MessageBox, FlattenedDataset, FeedItem) {
+    "sap/ui/model/json/JSONModel"
+], (Controller,JSONModel) => {
     "use strict";
+
     return Controller.extend("financialhub.controller.View2", {
-        onInit: function () {
-            // Initialize the JSON model for user inputs
+        onInit() {
             var oModel = new sap.ui.model.json.JSONModel({
                 "month" :"",
                 "salary" : "",
@@ -16,7 +14,7 @@ sap.ui.define([
                 "entertainment" : "",
                 "hospitality" : "",
                 "variableExpenses" : "",
-                "savings" : "",
+                // "savings" : "",
                 "userExpenditureTotal" : "", // New property to store user expenditure total
                 "profitLossStatus": "", // New property to store profit/loss status
                 "suggestions": "", // New property to store suggestions
@@ -34,7 +32,6 @@ sap.ui.define([
             });
             this.getView().setModel(oExpensesModel, "expensesModel");
         },
-
         onNavBack: function () {
             this.getOwnerComponent().getRouter().navTo("View1");
         },
@@ -53,20 +50,20 @@ sap.ui.define([
             var entertainment = parseFloat(oView.byId("entertainment").getValue()) || 0;
             var hospitality = parseFloat(oView.byId("hospitality").getValue()) || 0;
             var variableExpenses = parseFloat(oView.byId("variableExpenses").getValue()) || 0;
-            var savings = parseFloat(oView.byId("savings").getValue()) || 0;
+            // var savings = parseFloat(oView.byId("savings").getValue()) || 0;
         
             // Calculate User Expenditure Total
             var userExpenditureTotal = billPayments + grocery + entertainment +
-                                      hospitality + variableExpenses + savings;
+                                      hospitality + variableExpenses ;
         
             // Determine the percentage to adjust expenses based on salary
             var adjustmentPercentage;
-            if (salary < 3000) {
-                adjustmentPercentage = 0.9; // 90% of the input values
-            } else if (salary >= 3000 && salary <= 6000) {
+            if (salary < 30000) {
+                adjustmentPercentage = 0.7; // 70% of the input values
+            } else if (salary >= 30000 && salary <= 60000) {
                 adjustmentPercentage = 0.8; // 80% of the input values
             } else {
-                adjustmentPercentage = 0.8; // 70% of the input values
+                adjustmentPercentage = 0.9; // 90% of the input values
             }
         
             // Calculate predicted values for each category
@@ -75,11 +72,11 @@ sap.ui.define([
             var predictedEntertainment = entertainment * adjustmentPercentage;
             var predictedHospitality = hospitality * adjustmentPercentage;
             var predictedVariableExpenses = variableExpenses * adjustmentPercentage;
-            var predictedSavings = savings * adjustmentPercentage;
+            // var predictedSavings = savings * adjustmentPercentage;
         
             // Calculate Total Predicted Expenses
             var totalPredictedExpenses = predictedBillPayments + predictedGrocery + predictedEntertainment +
-                                         predictedHospitality + predictedVariableExpenses + predictedSavings;
+                                         predictedHospitality + predictedVariableExpenses ;
         
             // Calculate Remaining Salary
             var remainingSalary = salary - totalPredictedExpenses;
@@ -115,18 +112,9 @@ sap.ui.define([
                 { "category": "Grocery", "value": predictedGrocery },
                 { "category": "Entertainment", "value": predictedEntertainment },
                 { "category": "Hospitality", "value": predictedHospitality },
-                { "category": "Variable Expenses", "value": predictedVariableExpenses },
-                { "category": "Savings", "value": predictedSavings }
+                { "category": "Variable Expenses", "value": predictedVariableExpenses }
+                // { "category": "Savings", "value": predictedSavings }
             ];
-        
-            // Update the model with the transformed data
-            oModel.setProperty("/userExpenditureTotal", userExpenditureTotal); // Update user expenditure total
-            oModel.setProperty("/predictedValues", aPredictedValues);
-            oModel.setProperty("/totalPredictedExpenses", totalPredictedExpenses);
-            oModel.setProperty("/remainingSalary", remainingSalary);
-            oModel.setProperty("/profitLossStatus", profitLossStatus); // Update the profit/loss status
-            oModel.setProperty("/suggestions", suggestions); // Update the suggestions
-
             // Update the model with the two segments for the pie chart
             var aPredictedExpenses = [
                 { "label": "Total Expenses", "value": totalPredictedExpenses },
@@ -140,14 +128,34 @@ sap.ui.define([
             aMonthlyData.push({
                 "month": month,
                 "totalPredictedExpenses": totalPredictedExpenses,
-                "savings": predictedSavings
+                "remainingSalary":remainingSalary
             });
+            // Update the model with the transformed data
+            oModel.setProperty("/userExpenditureTotal", userExpenditureTotal); // Update user expenditure total
+            oModel.setProperty("/predictedValues", aPredictedValues);
+            oModel.setProperty("/totalPredictedExpenses", totalPredictedExpenses);
+            oModel.setProperty("/remainingSalary", remainingSalary);
+            oModel.setProperty("/profitLossStatus", profitLossStatus); // Update the profit/loss status
+            oModel.setProperty("/suggestions", suggestions); // Update the suggestions
             oModel.setProperty("/monthlyData", aMonthlyData);
+
+            this.reset();
         },
 
         // Formatter for currency values
         formatCurrency: function (fValue) {
             return parseFloat(fValue).toFixed(2);
+        },
+
+        reset: function(){
+            var oView = this.getView();
+            oView.byId("month").setValue("");
+            oView.byId("salary").setValue("");
+            oView.byId("billPayments").setValue("");
+            oView.byId("grocery").setValue("");
+            oView.byId("entertainment").setValue("");
+            oView.byId("hospitality").setValue("");
+            oView.byId("variableExpenses").setValue("");
         }
     });
 });

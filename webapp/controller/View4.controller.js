@@ -3,16 +3,14 @@ sap.ui.define([
     "sap/viz/ui5/data/FlattenedDataset",
     "sap/viz/ui5/controls/common/feeds/FeedItem",
     "sap/m/MessageBox"
-], function (Controller, FlattenedDataset, FeedItem, MessageBox) {
+], (Controller, FlattenedDataset, FeedItem, MessageBox) => {
     "use strict";
 
     return Controller.extend("financialhub.controller.View4", {
-        onInit: function () {
-            // Get the router and attach to the routeMatched event
+        onInit() {
             var oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("View4").attachMatched(this._onRouteMatched, this);
         },
-
         _onRouteMatched: function (oEvent) {
             // Load and bind the chart data
             this._loadAndBindChartData();
@@ -34,7 +32,7 @@ sap.ui.define([
                 return {
                     Month: oData.month,
                     PredictedExpenses: oData.totalPredictedExpenses,
-                    Savings: oData.savings
+                    RemainingSalary: oData.remainingSalary
                 };
             });
 
@@ -72,8 +70,8 @@ sap.ui.define([
                         value: "{chartModel>PredictedExpenses}"
                     },
                     {
-                        name: "Savings",
-                        value: "{chartModel>Savings}"
+                        name: "Remaining Salary",
+                        value: "{chartModel>RemainingSalary}"
                     }
                 ],
                 data: {
@@ -93,7 +91,7 @@ sap.ui.define([
             oVizFrame.addFeed(new FeedItem({
                 uid: "valueAxis",
                 type: "Measure",
-                values: ["Predicted Expenses", "Savings"]
+                values: ["Predicted Expenses", "Remaining Salary"]
             }));
         },
 

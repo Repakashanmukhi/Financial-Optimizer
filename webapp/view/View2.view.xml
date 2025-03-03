@@ -9,11 +9,11 @@
     xmlns:viz.data="sap.viz.ui5.data"
     displayBlock="true"
     height="100%">
-    <Page title="Expense Estimation">
+    <Page title="Predict and manage your expenses effectively">
         <content>
             <VBox class="sapUiSmallMargin">
                 <!-- User Expenditure Values -->
-                <Panel headerText="User Expenditure Values" expandable="true" expanded="true">
+                <Panel headerText="Spending breakdown" expandable="true" expanded="true">
                     <VBox class="sapUiSmallMargin">
                     <Label text="Month" labelFor="month"/>
                         <Input id="month" type="Text" value="{/month}" placeholder="Enter month..." />
@@ -35,9 +35,6 @@
                         <Label text="Variable Expenses" labelFor="variableExpenses"/>
                         <Input id="variableExpenses" type="Number" value="{/variableExpenses}" placeholder="Enter variable expenses..." />
 
-                        <Label text="Savings" labelFor="savings"/>
-                        <Input id="savings" type="Number" value="{/savings}" placeholder="Enter savings..." />
-
                         <Button
                             text="Estimate Expenses"
                             press=".onEstimateExpenses"
@@ -47,7 +44,7 @@
                 </Panel>
 
                 <!-- Predicted Table -->
-                <Panel headerText="Predicted Expenses" expandable="true" expanded="true" visible="{= !!${/predictedValues}.length}">
+                <Panel headerText="Expected Spending" expandable="true" expanded="true" visible="{= !!${/predictedValues}.length}">
                     <Table
                         id="predictionTable"
                         class="sapUiSmallMargin"
@@ -74,7 +71,7 @@
                 </Panel>
 
                 <!-- Employee Status -->
-                <Panel headerText="Employee Status" expandable="true" expanded="true" visible="{= !!${/profitLossStatus}}">
+                <Panel headerText="spending status" expandable="true" expanded="true" visible="{= !!${/profitLossStatus}}">
                     <VBox class="sapUiSmallMargin">
                         <Text text="Status: {/profitLossStatus}" class="profitLossStatus" />
                         <TextArea
@@ -87,7 +84,7 @@
                 </Panel>
 
                 <!-- Predicted Values Table -->
-                <Panel headerText="Summary" expandable="true" expanded="true" visible="{= !!${/totalPredictedExpenses}}">
+                <Panel headerText="Expense recap" expandable="true" expanded="true" visible="{= !!${/totalPredictedExpenses}}">
                     <VBox class="sapUiSmallMargin">
                         <Text text="Total Predicted Expenses: {/totalPredictedExpenses}" />
                         <Text text="Remaining Salary: {/remainingSalary}" />
@@ -95,7 +92,7 @@
                 </Panel>
 
                 <!-- Chart -->
-                <Panel headerText="Expense Distribution" expandable="true" expanded="true" visible="{= !!${/predictedValues}.length}">
+                <Panel headerText="Budget allocation" expandable="true" expanded="true" visible="{= !!${/predictedValues}.length}">
                     <viz:Popover id="idPopover"/>
                     <viz:VizFrame
                         id="pieChart"
@@ -129,40 +126,30 @@
                         </viz:feeds>
                     </viz:VizFrame>
                 </Panel>
+                <Panel headerText="Monthly spending overview " expandable="true" expanded="true" visible="{= !!${/monthlyData}}">
+                    <Table items="{/monthlyData}" class="sapUiSmallMarginTop" id="monthlyDataTable">
+                        <columns>
+                            <Column><Label text="Month" /></Column>
+                            <Column><Label text="Predicted Expenses" /></Column>
+                            <Column><Label text="Remaining Salary" /></Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem >
+                                <Text text="{month}"></Text>
+                                <Text text="{
+                                        path: 'totalPredictedExpenses',
+                                        formatter: '.formatCurrency'
+                                    }" />
+                                <Text text="{
+                                        path: 'remainingSalary',
+                                        formatter: '.formatCurrency'
+                                    }" />
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+            </Panel>
             </VBox>
         </content>
-        <table:Table
-            id="monthlyDataTable"
-            rows="{/monthlyData}"
-            class="sapUiSmallMarginTop">
-            <table:columns>
-                <table:Column width="150px">
-                    <Label text="Month" />
-                    <table:template>
-                        <Text text="{month}" />
-                    </table:template>
-                </table:Column>
-                <table:Column width="200px">
-                    <Label text="Predicted Expenses" />
-                    <table:template>
-                        <Text text="{
-                            path: 'totalPredictedExpenses',
-                            formatter: '.formatCurrency'
-                        }" />
-                    </table:template>
-                </table:Column>
-                <table:Column width="150px">
-                    <Label text="Savings" />
-                    <table:template>
-                        <Text text="{
-                            path: 'savings',
-                            formatter: '.formatCurrency'
-                        }" />
-                    </table:template>
-                </table:Column>
-            </table:columns>
-        </table:Table>
-
         <!-- Navigation Footer -->
         <footer>
             <OverflowToolbar>

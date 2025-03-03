@@ -5,7 +5,7 @@
     xmlns:core="sap.ui.core">
     <Page
         id="page3"
-        title="Bank Master Data"
+        title="Manage your loans and check eligibility"
         showNavButton="true"
         navButtonPress="NavBack"
         class="sapUiResponsivePadding">
