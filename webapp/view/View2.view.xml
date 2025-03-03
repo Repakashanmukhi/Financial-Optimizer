@@ -12,7 +12,6 @@
     <Page title="Predict and manage your expenses effectively">
         <content>
             <VBox class="sapUiSmallMargin">
-                <!-- User Expenditure Values -->
                 <Panel headerText="Spending breakdown" expandable="true" expanded="true">
                     <VBox class="sapUiSmallMargin">
                     <Label text="Month" labelFor="month"/>
@@ -43,7 +42,6 @@
                     </VBox>
                 </Panel>
 
-                <!-- Predicted Table -->
                 <Panel headerText="Expected Spending" expandable="true" expanded="true" visible="{= !!${/predictedValues}.length}">
                     <Table
                         id="predictionTable"
@@ -70,7 +68,6 @@
                     </Table>
                 </Panel>
 
-                <!-- Employee Status -->
                 <Panel headerText="spending status" expandable="true" expanded="true" visible="{= !!${/profitLossStatus}}">
                     <VBox class="sapUiSmallMargin">
                         <Text text="Status: {/profitLossStatus}" class="profitLossStatus" />
@@ -83,7 +80,6 @@
                     </VBox>
                 </Panel>
 
-                <!-- Predicted Values Table -->
                 <Panel headerText="Expense recap" expandable="true" expanded="true" visible="{= !!${/totalPredictedExpenses}}">
                     <VBox class="sapUiSmallMargin">
                         <Text text="Total Predicted Expenses: {/totalPredictedExpenses}" />
@@ -91,7 +87,6 @@
                     </VBox>
                 </Panel>
 
-                <!-- Chart -->
                 <Panel headerText="Budget allocation" expandable="true" expanded="true" visible="{= !!${/predictedValues}.length}">
                     <viz:Popover id="idPopover"/>
                     <viz:VizFrame
@@ -150,7 +145,6 @@
             </Panel>
             </VBox>
         </content>
-        <!-- Navigation Footer -->
         <footer>
             <OverflowToolbar>
                 <ToolbarSpacer/>

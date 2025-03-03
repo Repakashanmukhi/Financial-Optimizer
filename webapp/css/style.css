@@ -1,16 +1,88 @@
 .customList {
     background-color: #d7e8d4;
     border-radius: 12px;
-    padding: 10px;
+    padding: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transition: transform 0.2s ease-in-out;
 }
 .customList:hover {
     transform: scale(1.03);
 }
-.feedbackContainer {
-    gap: 10px;
-    padding: 10px;
+.Details{
+    background-color: #d7e8d4;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.Department{
+    font-weight: bold;
+    font-size: medium;
+}
+/* Custom Dialog Styling */
+.feedbackDialog .sapMDialogTitle {
+    color: #333;
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.feedbackDialog .sapMDialogContent {
+    padding: 1.5rem;
+    background-color: #fff;
+}
+
+/* Rating Indicator Styling */
+.ratingIndicator {
+    margin-bottom: 1.5rem;
+    padding-left:1.5rem;
+}
+
+.ratingIndicator .sapMRI {
+    font-size: 2rem;
+    color: #ffc107; /* Gold color for stars */
+}
+
+/* TextArea Styling */
+.feedbackTextArea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.feedbackTextArea:focus {
+    border-color: #0070f2; /* Highlight border on focus */
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 112, 242, 0.2);
+}
+
+/* Button Styling */
+.submitButton {
+    background-color: #0070f2;
+    color: #fff;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.submitButton:hover {
+    background-color: #005bb5;
+}
+
+.cancelButton {
+    background-color: #f4f4f4;
+    color: #333;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+}
+
+.cancelButton:hover {
+    background-color: #e0e0e0;
 }
 .thankYouContainer {
     text-align: center;
@@ -53,9 +125,6 @@
     box-shadow: blue;
     margin: 16px;
 }
-
-
-
 
 /* Apply background color to the entire view */
 .customViewBackground {

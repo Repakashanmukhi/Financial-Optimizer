@@ -3,8 +3,27 @@
     xmlns="sap.m">
 
     <Page id="page1" title="{i18n>title}">
+        <!-- Existing Dashboard Options List -->
+        <List headerText="Employee Details" class="Details" items="{/employeemaster}">
+            <CustomListItem class="customListItem">
+                <HBox justifyContent="SpaceBetween" alignItems="Center">
+                    <!-- Left Side -->
+                    <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom">
+                        <Text text="{EmpName}" class="sapUiTinyMarginBottom" />
+                        <Text text="Employee ID: {EmpID}" class="sapUiTinyMarginBottom" />
+                        <Text text="Email: {EmpEmail}" class="sapUiTinyMarginBottom" />
+                    </VBox>
+
+                    <!-- Right Side -->
+                    <VBox alignItems="End" class="sapUiSmallMarginEnd sapUiSmallMarginTopBottom">
+                        <Text text="{EmpCont}" class="sapUiSmallMarginBottom" />
+                        <ObjectStatus text="{EmpDesig}" class="Department"/>
+                    </VBox>
+                </HBox>
+            </CustomListItem>
+        </List>
+
         <List headerText="Dashboard Options" class="customList">
-            
             <ObjectListItem
                 title="Financial Forecast"
                 icon="sap-icon://money-bills"
@@ -33,28 +52,31 @@
                 press=".openFeedbackDialog"
                 intro="Your feedback shapes our future- share it today!" />
         </List>
-        <Dialog id="feedbackDialog" title="We Value Your Feedback">
-        <VBox class="feedbackContainer">
-            <RatingIndicator id="rating" maxValue="5" tooltip="Rate us" />
-            <TextArea id="feedbackText" placeholder="Write your feedback here..." rows="4" />
-        </VBox>
-        <endButton>
-            <Button text="Submit" type="Emphasized" press=".submitFeedback" />
-        </endButton>
-        <beginButton>
-            <Button text="Cancel" press=".closeFeedbackDialog" />
-        </beginButton>
-    </Dialog>
-    <Dialog id="thankYouDialog" title="Thank You">
-        <VBox class="thankYouContainer">
-            <Text text="Thank you for your valuable feedback!" />
-        </VBox>
-        <endButton>
-            <Button text="Close" type="Emphasized" press=".closeThankYouDialog" />
-        </endButton>
-    </Dialog>
+
+       
+        
+
+        <!-- Feedback Dialog -->
+        <Dialog id="feedbackDialog" title="We Value Your Feedback" class="feedbackDialog">
+            <VBox class="feedbackContainer">
+                <RatingIndicator id="rating" maxValue="5" tooltip="Rate us" class="ratingIndicator" />
+                <TextArea id="feedbackText" placeholder="Write your feedback here..." rows="4" class="feedbackTextArea" />
+            </VBox>
+            <endButton>
+                <Button text="Submit" type="Emphasized" press=".submitFeedback" class="submitButton" />
+            </endButton>
+            <beginButton>
+                <Button text="Cancel" press=".closeFeedbackDialog" class="cancelButton" />
+            </beginButton>
+        </Dialog>
+        <!-- Thank You Dialog -->
+        <Dialog id="thankYouDialog" title="Thank You">
+            <VBox class="thankYouContainer">
+                <Text text="Thank you for your valuable feedback!" />
+            </VBox>
+            <endButton>
+                <Button text="Close" type="Emphasized" press=".closeThankYouDialog" />
+            </endButton>
+        </Dialog>
     </Page>
 </mvc:View>
-   
-
-

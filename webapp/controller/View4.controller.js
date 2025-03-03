@@ -15,7 +15,7 @@ sap.ui.define([
             // Load and bind the chart data
             this._loadAndBindChartData();
         },
-
+ 
         _loadAndBindChartData: function () {
             // Get the shared model (component-level JSON model)
             var oSharedModel = this.getOwnerComponent().getModel("sharedModel");

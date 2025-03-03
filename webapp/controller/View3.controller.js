@@ -12,17 +12,14 @@ sap.ui.define([
 
     return Controller.extend("financialhub.controller.View3", {
         onInit: function () {
-            // Initialization logic (if needed)
         },
 
         NavBack: function () {
-            // Navigate back to the previous view
             var oRouter = this.getOwnerComponent().getRouter();
-            oRouter.navTo("View1"); // Replace "previousView" with the actual target view name
+            oRouter.navTo("View1"); 
         },
 
         onSearch: function (oEvent) {
-            // Handle search functionality
             var sQuery = oEvent.getParameter("query");
             var oTable = this.byId("employeeTable");
             var oBinding = oTable.getBinding("items");
@@ -40,11 +37,10 @@ sap.ui.define([
         },
 
         onFilterPress: function () {
-            // Open a dialog for filtering based on Rate of Interest
             var oView = this.getView();
 
             if (!this._oFilterDialog) {
-                // Create a dialog for filtering
+            
                 this._oFilterDialog = new Dialog({
                     title: "Filter by Rate of Interest",
                     content: new Input({
@@ -54,45 +50,39 @@ sap.ui.define([
                     beginButton: new Button({
                         text: "Apply",
                         press: function () {
-                            var oDialog = this.getParent(); // Get the dialog instance
-                            var oInput = oDialog.getContent()[0]; // Get the input field
+                            var oDialog = this.getParent(); 
+                            var oInput = oDialog.getContent()[0]; 
                             var sValue = oInput.getValue();
 
                             if (sValue) {
                                 var oTable = oView.byId("employeeTable");
                                 var oBinding = oTable.getBinding("items");
-
-                                // Create a filter for Rate of Interest
                                 var oFilter = new Filter({
                                     path: "BANK_ROI",
-                                    operator: FilterOperator.GE, // Greater than or equal to
+                                    operator: FilterOperator.GE, 
                                     value1: parseFloat(sValue)
                                 });
 
-                                // Apply the filter
-                                oBinding.filter([oFilter]);
+                            oBinding.filter([oFilter]);
                             } else {
                                 MessageBox.error("Please enter a valid rate of interest.");
                             }
-
-                            oDialog.close(); // Close the dialog
+                            oDialog.close(); 
                         }
                     }),
                     endButton: new Button({
                         text: "Cancel",
                         press: function () {
-                            this.getParent().close(); // Close the dialog
+                            this.getParent().close(); 
                         }
                     })
                 });
             }
 
-            // Open the dialog
             this._oFilterDialog.open();
         },
 
         onSortPress: function () {
-            // Handle sorting functionality
             var oTable = this.byId("employeeTable");
             var oBinding = oTable.getBinding("items");
 
@@ -104,7 +94,6 @@ sap.ui.define([
         },
 
         onSelectionChange: function (oEvent) {
-            // Handle row selection changes
             var aSelectedItems = oEvent.getParameter("selectedItems");
             MessageBox.information("Selected items: " + aSelectedItems.length);
         }
