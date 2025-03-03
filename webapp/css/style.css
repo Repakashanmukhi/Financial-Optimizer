@@ -1,6 +1,22 @@
- .customPageBackground {
-    background: linear-gradient(to right,  #d7e8d4, #ffffff); /* Subtle gradient */
-    
+.customList {
+    background-color: #d7e8d4;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+}
+.customList:hover {
+    transform: scale(1.03);
+}
+.feedbackContainer {
+    gap: 10px;
+    padding: 10px;
+}
+.thankYouContainer {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .customVBoxBackground {
@@ -20,7 +36,7 @@
 
 .sapMIBar.sapMHeader-CTX {
     color: var(--sapPageHeader_TextColor);
-    background-color: #9cc694;
+    background-color: #a3cf9a;
     filter: none;
     background-image: none;
     
