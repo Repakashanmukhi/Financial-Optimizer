@@ -42,10 +42,7 @@
     margin-bottom: 1rem; /* Add spacing below the input */
 }
 
-/* Style the submit button */
-.sapMBtn {
-    width: 100%; /* Make the button fill the box */
-}
+
 .Details{
     background-color: #d7e8d4;
     border-radius: 15px;
