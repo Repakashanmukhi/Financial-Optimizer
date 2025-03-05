@@ -5,11 +5,16 @@
     xmlns:viz="sap.viz.ui5.controls"
     xmlns:layout="sap.ui.layout"
     xmlns:core="sap.ui.core">
-    <Page
-        title="View your wallet transactions and history-"
-        showNavButton="true"
-        navButtonPress="onNavBack">
+    <Page>
         <content>
+        <Bar class="topHeader">
+            <contentLeft>
+                <Button icon="sap-icon://nav-back" press="onNavBack" />
+            </contentLeft>
+            <contentMiddle>
+                <Text text="View your wallet transactions and history" class="title" />
+            </contentMiddle>
+        </Bar>
             <VBox class="sapUiSmallMargin">
                 <!-- VizFrame for Chart -->
                 <viz:VizFrame

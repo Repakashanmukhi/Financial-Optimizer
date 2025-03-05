@@ -7,11 +7,52 @@ sap.ui.define([
     "sap/m/Input",
     "sap/m/Button",
     "sap/m/MessageBox"
-], function (Controller, Filter, FilterOperator, Sorter, Dialog, Input, Button, MessageBox) {
+], (Controller, Filter, FilterOperator, Sorter, Dialog, Input, Button, MessageBox) => {
     "use strict";
-
+    var that;
     return Controller.extend("financialhub.controller.View3", {
-        onInit: function () {
+        onInit() {
+            that=this;
+            var oModel = this.getOwnerComponent().getModel();
+            oModel.read("/bankmaster",{
+                success: function(bankType){
+                    var uniqueBank = [];
+                    bankType.results.forEach(function(bank){
+                        var obank = bank.BankType;
+                        if (uniqueBank.indexOf(obank) === -1) {
+                            uniqueBank.push(obank);
+                        }
+                    })
+                    var uniqueType= new sap.ui.model.json.JSONModel({
+                        aBank: uniqueBank,
+                    });
+                    that.getView().setModel(uniqueType, "unique");
+                }
+            })
+            this._fetchCIBILScore();
+        },
+
+        _fetchCIBILScore: function () {
+            var oModel = this.getOwnerComponent().getModel();
+            var sEmployeeId = "FIN1"; // Replace with the actual employee ID or dynamic value
+
+            oModel.read("/employeemaster", {
+                filters: [new Filter("EmpID", FilterOperator.EQ, sEmployeeId)],
+                success: function (oData) {
+                    if (oData.results.length > 0) {
+                        var cibilScore = oData.results[0].EmpCibil; // Assuming CIBILScore is the field name
+                        var oCibilModel = new sap.ui.model.json.JSONModel({
+                            cibilScore: cibilScore
+                        });
+                        that.getView().setModel(oCibilModel, "cibilModel");
+                    } else {
+                        MessageBox.error("No CIBIL score found for the employee.");
+                    }
+                },
+                error: function (oError) {
+                    MessageBox.error("Failed to fetch CIBIL score.");
+                }
+            });
         },
 
         NavBack: function () {
@@ -28,7 +69,8 @@ sap.ui.define([
                 var oFilter = new Filter({
                     path: "BankName",
                     operator: FilterOperator.Contains,
-                    value1: sQuery
+                    value1: sQuery,
+                    caseSensitive : false
                 });
                 oBinding.filter([oFilter]);
             } else {
@@ -36,66 +78,51 @@ sap.ui.define([
             }
         },
 
-        onFilterPress: function () {
-            var oView = this.getView();
-
-            if (!this._oFilterDialog) {
-            
-                this._oFilterDialog = new Dialog({
-                    title: "Filter by Rate of Interest",
-                    content: new Input({
-                        placeholder: "Enter minimum rate of interest",
-                        type: "Number"
-                    }),
-                    beginButton: new Button({
-                        text: "Apply",
-                        press: function () {
-                            var oDialog = this.getParent(); 
-                            var oInput = oDialog.getContent()[0]; 
-                            var sValue = oInput.getValue();
-
-                            if (sValue) {
-                                var oTable = oView.byId("employeeTable");
-                                var oBinding = oTable.getBinding("items");
-                                var oFilter = new Filter({
-                                    path: "BANK_ROI",
-                                    operator: FilterOperator.GE, 
-                                    value1: parseFloat(sValue)
-                                });
-
-                            oBinding.filter([oFilter]);
-                            } else {
-                                MessageBox.error("Please enter a valid rate of interest.");
-                            }
-                            oDialog.close(); 
-                        }
-                    }),
-                    endButton: new Button({
-                        text: "Cancel",
-                        press: function () {
-                            this.getParent().close(); 
-                        }
-                    })
-                });
+        onBankType: function(){
+            var oFilter = [];
+            var oselectedBank = that.byId("bankType").getSelectedKey();
+            if(oselectedBank){
+                oFilter.push(new Filter("BankType", FilterOperator.EQ, oselectedBank));
             }
-
-            this._oFilterDialog.open();
-        },
-
-        onSortPress: function () {
-            var oTable = this.byId("employeeTable");
+            var oTable = that.byId("employeeTable");
             var oBinding = oTable.getBinding("items");
-
-            var oSorter = new Sorter({
-                path: "BankName",
-                descending: false
-            });
-            oBinding.sort([oSorter]);
+            oBinding.filter(oFilter);
         },
 
-        onSelectionChange: function (oEvent) {
-            var aSelectedItems = oEvent.getParameter("selectedItems");
-            MessageBox.information("Selected items: " + aSelectedItems.length);
+        onRowPress: function () {
+            var oTable = that.getView().byId("employeeTable");
+            var oSelectedRow = oTable.getSelectedItem().getBindingContext().getObject();
+            if(!that.bankQuote){
+                that.bankQuote = sap.ui.xmlfragment("financialhub.fragments.Bank",that);
+            }
+            sap.ui.getCore().byId("bankId").setText(oSelectedRow.BID);
+            sap.ui.getCore().byId("bankInterest").setText(oSelectedRow.BANK_ROI);
+            sap.ui.getCore().byId("process").setText(oSelectedRow.BANK_PROCESSTYM);
+
+            that.bankQuote.open();
+        },
+        onSubmit: function(){
+            var oView = this.getView();
+            var oModel = oView.getModel();
+            var fLoanAmount = parseFloat(sap.ui.getCore().byId("loanAmount").getValue());
+            var fTenure = parseFloat(sap.ui.getCore().byId("tenure").getValue());
+            var fInterestRate = parseFloat(sap.ui.getCore().byId("bankInterest").getText());
+ 
+           var repay = fLoanAmount * (fTenure) * (fInterestRate/12);
+           var emi = repay/(fTenure*12);
+           that.bankQuote.close() ;
+           that.byId("sendQuotation").open();
+           oView.byId("amount").setText(fLoanAmount);
+            oView.byId("duration").setText(fTenure);
+            oView.byId("int").setText(fInterestRate);
+            oView.byId("emi").setText(emi);
+            oView.byId("repay").setText(repay);
+        },
+        closeDialog: function(){
+            that.byId("sendQuotation").close();
+        },
+        sendDialog: function(){
+            
         }
     });
 });

@@ -1,0 +1,37 @@
+<core:FragmentDefinition xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.layout" xmlns:core= "sap.ui.core"
+xmlns= "sap.m"
+>
+    <Dialog id="bankQuote" title="Bank Quotation Details">
+        <VBox class="sapUiSmallMargin">
+            <!-- Bank Details from bankmaster -->
+            <Label text="Bank Name" />
+            <Text id="bankId" class="sapUiSmallMarginBottom" />
+
+            <Label text="Interest Rate" />
+            <Text id="bankInterest" class="sapUiSmallMarginBottom" />
+
+            <Label text="Processing Time" />
+            <Text id="process" class="sapUiSmallMarginBottom" />
+
+            <!-- User Input Fields -->
+
+            <Label text="Loan Amount" />
+            <Input
+                id="loanAmount"
+                class="sapUiSmallMarginBottom" />
+
+            <Label text="Tenure (Years)" />
+            <Input
+                id="tenure"
+                class="sapUiSmallMarginBottom" />
+
+        </VBox>
+        <footer>
+        <Toolbar>
+        <ToolbarSpacer ></ToolbarSpacer>
+            <Button text="Submit" press="onSubmit" />
+            <Button text="Close" press="onCloseDialog" />
+        </Toolbar>
+ </footer>
+    </Dialog>
+</core:FragmentDefinition>

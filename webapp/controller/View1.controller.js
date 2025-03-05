@@ -16,6 +16,10 @@ sap.ui.define([
         onWalletHistory: function(){
             this.getOwnerComponent().getRouter().navTo("View4");
         },
+        onNav5: function(){
+            this.getOwnerComponent().getRouter().navTo("View5");
+
+        },
         openFeedbackDialog: function() {
             this.byId("feedbackDialog").open();
         },
@@ -40,6 +44,7 @@ sap.ui.define([
         closeThankYouDialog: function() {
             this.byId("thankYouDialog").close();
         }
+        
     });
 });
 

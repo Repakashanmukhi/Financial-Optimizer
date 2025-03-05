@@ -1,161 +1,202 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/model/json/JSONModel"
-], (Controller,JSONModel) => {
+    "sap/m/MessageBox"
+], function (Controller, MessageBox) {
     "use strict";
 
     return Controller.extend("financialhub.controller.View2", {
-        onInit() {
+        onInit: function () {
+            // Initialize model with default values
             var oModel = new sap.ui.model.json.JSONModel({
-                "month" :"",
-                "salary" : "",
-                "billPayments" : "",
-                "grocery" : "",
-                "entertainment" : "",
-                "hospitality" : "",
-                "variableExpenses" : "",
-                // "savings" : "",
-                "userExpenditureTotal" : "", // New property to store user expenditure total
-                "profitLossStatus": "", // New property to store profit/loss status
-                "suggestions": "", // New property to store suggestions
-                "predictedValues": [], // Array to store transformed data for the table
-                "totalPredictedExpenses" : "",
-                "remainingSalary" : "",
-                "monthlyData": [] // Array to store monthly data
+                month: "",
+                salary: 0,
+                groceries: 0,
+                hospitality: 0,
+                entertainment: 0,
+                variableExpenses: 0,
+                billPayments: 0,
+                totalExpenses: 0,
+                remainingSalary: 0,
+                financialStatus: "",
+                suggestions: "",
+                expenseData: [],
+                monthlyData: [], // Initialize empty array for monthly data
+                months: [] // Initialize empty array for saved monthly data
             });
-            this.getOwnerComponent().setModel(oModel, "sharedModel");
+            this.getOwnerComponent().setModel(oModel, "sharedModel"); // Set as a named model
             this.getView().setModel(oModel);
 
-            // Initialize the JSON model for predicted expenses
             var oExpensesModel = new sap.ui.model.json.JSONModel({
                 PredictedExpenses: []
             });
             this.getView().setModel(oExpensesModel, "expensesModel");
         },
-        onNavBack: function () {
-            this.getOwnerComponent().getRouter().navTo("View1");
-        },
 
-        // Function to estimate the monthly expenditures and update the pie chart
         onEstimateExpenses: function () {
             var oView = this.getView();
             var oModel = oView.getModel();
             var oExpensesModel = oView.getModel("expensesModel");
-        
-            // Retrieve values from user input fields
             var month = oView.byId("month").getValue();
-            var salary = parseFloat(oView.byId("salary").getValue()) || 0;
-            var billPayments = parseFloat(oView.byId("billPayments").getValue()) || 0;
-            var grocery = parseFloat(oView.byId("grocery").getValue()) || 0;
-            var entertainment = parseFloat(oView.byId("entertainment").getValue()) || 0;
-            var hospitality = parseFloat(oView.byId("hospitality").getValue()) || 0;
-            var variableExpenses = parseFloat(oView.byId("variableExpenses").getValue()) || 0;
-            // var savings = parseFloat(oView.byId("savings").getValue()) || 0;
-        
-            // Calculate User Expenditure Total
-            var userExpenditureTotal = billPayments + grocery + entertainment +
-                                      hospitality + variableExpenses ;
-        
-            // Determine the percentage to adjust expenses based on salary
-            var adjustmentPercentage;
-            if (salary < 30000) {
-                adjustmentPercentage = 0.7; // 70% of the input values
-            } else if (salary >= 30000 && salary <= 60000) {
-                adjustmentPercentage = 0.8; // 80% of the input values
-            } else {
-                adjustmentPercentage = 0.9; // 90% of the input values
-            }
-        
-            // Calculate predicted values for each category
-            var predictedBillPayments = billPayments * adjustmentPercentage;
-            var predictedGrocery = grocery * adjustmentPercentage;
-            var predictedEntertainment = entertainment * adjustmentPercentage;
-            var predictedHospitality = hospitality * adjustmentPercentage;
-            var predictedVariableExpenses = variableExpenses * adjustmentPercentage;
-            // var predictedSavings = savings * adjustmentPercentage;
-        
-            // Calculate Total Predicted Expenses
-            var totalPredictedExpenses = predictedBillPayments + predictedGrocery + predictedEntertainment +
-                                         predictedHospitality + predictedVariableExpenses ;
-        
-            // Calculate Remaining Salary
-            var remainingSalary = salary - totalPredictedExpenses;
-        
-            // Determine if the employee is in profit or loss
-            var profitLossStatus;
-            var suggestions;
-            if (remainingSalary > 0) {
-                profitLossStatus = "Profit";
-                suggestions = "You are in profit! Consider investing your remaining amount in:\n" +
-                               "1. Fixed Deposits (FDs) for safe returns.\n" +
-                               "2. Mutual Funds for higher growth potential.\n" +
-                               "3. Stock Market (if you have a higher risk appetite).\n" +
-                               "4. Emergency Fund to secure your future.";
-            } else if (remainingSalary < 0) {
-                profitLossStatus = "Loss";
+            var salary = parseFloat(oModel.getProperty("/salary")) || 0;
+
+            // Define percentage ranges for each category
+            var groceriesRange = { min: 0.18, max: 0.22 };
+            var hospitalityRange = { min: 0.07, max: 0.09 };
+            var entertainmentRange = { min: 0.08, max: 0.12 };
+            var variableExpensesRange = { min: 0.04, max: 0.06 };
+            var billPaymentsRange = { min: 0.2, max: 0.3 };
+
+            // Calculate predicted values
+            var predictedGroceries = salary * ((groceriesRange.min + groceriesRange.max) / 2);
+            var predictedHospitality = salary * ((hospitalityRange.min + hospitalityRange.max) / 2);
+            var predictedEntertainment = salary * ((entertainmentRange.min + entertainmentRange.max) / 2);
+            var predictedVariableExpenses = salary * ((variableExpensesRange.min + variableExpensesRange.max) / 2);
+            var predictedBillPayments = salary * ((billPaymentsRange.min + billPaymentsRange.max) / 2);
+
+            // Set predicted values to the model
+            oModel.setProperty("/groceries", predictedGroceries);
+            oModel.setProperty("/hospitality", predictedHospitality);
+            oModel.setProperty("/entertainment", predictedEntertainment);
+            oModel.setProperty("/variableExpenses", predictedVariableExpenses);
+            oModel.setProperty("/billPayments", predictedBillPayments);
+
+            // Calculate totals and update UI
+            this.calculateTotals();
+            this.byId("predictedExpensesPanel").setVisible(true);
+            this.byId("chartPanel").setVisible(true);
+            this.byId("statusPanel").setVisible(true);
+            this.byId("historyPanel").setVisible(true);
+            this.updateChartData();
+        },
+
+        onExpenseChange: function () {
+            this.calculateTotals();
+            this.updateChartData();
+        },
+
+        calculateTotals: function () {
+            var oView = this.getView();
+            var oModel = oView.getModel();
+            var oExpensesModel = oView.getModel("expensesModel");
+
+            var month = oView.byId("month").getValue();
+            var salary = parseFloat(oModel.getProperty("/salary")) || 0;
+            var groceries = parseFloat(oModel.getProperty("/groceries")) || 0;
+            var hospitality = parseFloat(oModel.getProperty("/hospitality")) || 0;
+            var entertainment = parseFloat(oModel.getProperty("/entertainment")) || 0;
+            var variableExpenses = parseFloat(oModel.getProperty("/variableExpenses")) || 0;
+            var billPayments = parseFloat(oModel.getProperty("/billPayments")) || 0;
+
+            // Calculate total expenses and remaining salary
+            var totalExpenses = groceries + hospitality + entertainment + variableExpenses + billPayments;
+            var remainingSalary = salary - totalExpenses;
+            var remainingPercentage = (remainingSalary / salary) * 100;
+
+            // Determine financial status and suggestions
+            var financialStatus = "";
+            var suggestions = "";
+            if (remainingPercentage <= 15) {
+                financialStatus = "Loss";
                 suggestions = "You are in loss. Consider reducing expenses in:\n" +
                              "1. Entertainment (limit dining out and subscriptions).\n" +
                              "2. Hospitality (reduce unnecessary travel expenses).\n" +
                              "3. Variable Expenses (cut down on impulsive purchases).\n" +
                              "4. Review your grocery and utility bills for savings.";
-            } else {
-                profitLossStatus = "Break-even";
+            } else if (remainingPercentage <= 30) {
+                financialStatus = "Break-even";
                 suggestions = "You are at break-even. Consider:\n" +
                               "1. Increasing your savings to build a financial cushion.\n" +
                               "2. Reducing discretionary expenses (entertainment, hospitality).\n" +
                               "3. Exploring small investments like recurring deposits (RDs).";
+            } else {
+                financialStatus = "Profit";
+                suggestions = "You are in profit! Consider investing your remaining amount in:\n" +
+                               "1. Fixed Deposits (FDs) for safe returns.\n" +
+                               "2. Mutual Funds for higher growth potential.\n" +
+                               "3. Stock Market (if you have a higher risk appetite).\n" +
+                               "4. Emergency Fund to secure your future.";
             }
-        
-            // Transform predicted values into an array for the table
-            var aPredictedValues = [
-                { "category": "Bill Payments", "value": predictedBillPayments },
-                { "category": "Grocery", "value": predictedGrocery },
-                { "category": "Entertainment", "value": predictedEntertainment },
-                { "category": "Hospitality", "value": predictedHospitality },
-                { "category": "Variable Expenses", "value": predictedVariableExpenses }
-                // { "category": "Savings", "value": predictedSavings }
-            ];
-            // Update the model with the two segments for the pie chart
+
             var aPredictedExpenses = [
-                { "label": "Total Expenses", "value": totalPredictedExpenses },
+                { "label": "Total Expenses", "value": totalExpenses },
                 { "label": "Remaining Amount", "value": remainingSalary }
             ];
         
             oExpensesModel.setProperty("/PredictedExpenses", aPredictedExpenses);
 
-            // Save the monthly data
             var aMonthlyData = oModel.getProperty("/monthlyData");
             aMonthlyData.push({
                 "month": month,
-                "totalPredictedExpenses": totalPredictedExpenses,
-                "remainingSalary":remainingSalary
+                "totalPredictedExpenses": totalExpenses,
+                "remainingSalary": remainingSalary
             });
-            // Update the model with the transformed data
-            oModel.setProperty("/userExpenditureTotal", userExpenditureTotal); // Update user expenditure total
-            oModel.setProperty("/predictedValues", aPredictedValues);
-            oModel.setProperty("/totalPredictedExpenses", totalPredictedExpenses);
+
+            // Update model
+            oModel.setProperty("/totalExpenses", totalExpenses);
             oModel.setProperty("/remainingSalary", remainingSalary);
-            oModel.setProperty("/profitLossStatus", profitLossStatus); // Update the profit/loss status
-            oModel.setProperty("/suggestions", suggestions); // Update the suggestions
+            oModel.setProperty("/financialStatus", financialStatus);
+            oModel.setProperty("/suggestions", suggestions);
             oModel.setProperty("/monthlyData", aMonthlyData);
-
-            this.reset();
         },
 
-        // Formatter for currency values
-        formatCurrency: function (fValue) {
-            return parseFloat(fValue).toFixed(2);
+        updateChartData: function () {
+            var oModel = this.getView().getModel();
+            var expenseData = [
+                { category: "Groceries", amount: parseFloat(oModel.getProperty("/groceries")) || 0 },
+                { category: "Hospitality", amount: parseFloat(oModel.getProperty("/hospitality")) || 0 },
+                { category: "Entertainment", amount: parseFloat(oModel.getProperty("/entertainment")) || 0 },
+                { category: "Variable Expenses", amount: parseFloat(oModel.getProperty("/variableExpenses")) || 0 },
+                { category: "Bill Payments", amount: parseFloat(oModel.getProperty("/billPayments")) || 0 },
+                { category: "Remaining Salary", amount: parseFloat(oModel.getProperty("/remainingSalary")) || 0 }
+            ];
+            oModel.setProperty("/expenseData", expenseData);
         },
 
-        reset: function(){
+        onSaveMonthlyData: function () {
+            var oModel = this.getView().getModel();
+            var oData = oModel.getData();
+
+            // Validate input fields
+            if (!oData.month || !oData.salary || oData.totalExpenses === undefined) {
+                MessageBox.error("Please fill in all required fields.");
+                return;
+            }
+
+            // Check for duplicate month
+            var isDuplicate = oData.months.some(function (entry) {
+                return entry.month === oData.month;
+            });
+
+            if (isDuplicate) {
+                MessageBox.error("Data for this month already exists.");
+                return;
+            }
+
+            // Save the data
+            var newEntry = {
+                month: oData.month,
+                salary: oData.salary,
+                totalExpenses: oData.totalExpenses,
+                remainingSalary: oData.remainingSalary,
+                financialStatus: oData.financialStatus
+            };
+
+            oData.months.push(newEntry);
+            oModel.setData(oData);
+
+            MessageBox.success("Monthly data saved successfully!");
+        },
+
+        onNavBack: function () {
             var oView = this.getView();
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            oRouter.navTo("View1"); // Replace with your route name
+            this.byId("predictedExpensesPanel").setExpanded(false);
+            this.byId("chartPanel").setExpanded(false);
+            this.byId("statusPanel").setExpanded(false);
+            this.byId("historyPanel").setExpanded(false);
             oView.byId("month").setValue("");
             oView.byId("salary").setValue("");
-            oView.byId("billPayments").setValue("");
-            oView.byId("grocery").setValue("");
-            oView.byId("entertainment").setValue("");
-            oView.byId("hospitality").setValue("");
-            oView.byId("variableExpenses").setValue("");
         }
     });
 });

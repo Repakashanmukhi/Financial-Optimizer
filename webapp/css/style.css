@@ -8,6 +8,44 @@
 .customList:hover {
     transform: scale(1.03);
 }
+/* Center the VBox content */
+.centeredBox {
+    width: 300px; /* Set a fixed width for the box */
+    padding: 2rem; /* Add padding inside the box */
+    background-color: #ffffff; /* White background */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    position: absolute; /* Position the box absolutely */
+    top: 50%; /* Move the box down by 50% of the page height */
+    left: 50%; /* Move the box right by 50% of the page width */
+    transform: translate(-50%, -50%); /* Center the box */
+}
+
+/* Style the header */
+.topHeader .sapMBarPH {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style the title text */
+.topHeader .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50; /* Dark blue color */
+}
+
+/* Style the input field */
+#usernameInput {
+    width: 100%; /* Make the input field fill the box */
+    margin-bottom: 1rem; /* Add spacing below the input */
+}
+
+/* Style the submit button */
+.sapMBtn {
+    width: 100%; /* Make the button fill the box */
+}
 .Details{
     background-color: #d7e8d4;
     border-radius: 15px;
@@ -17,6 +55,9 @@
 .Department{
     font-weight: bold;
     font-size: medium;
+}
+.title{
+    font-weight: bold;
 }
 /* Custom Dialog Styling */
 .feedbackDialog .sapMDialogTitle {
@@ -104,15 +145,26 @@
     border-radius: 10px;
     padding: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    
 }
 
-.sapMIBar.sapMHeader-CTX {
+.topHeader{
     color: var(--sapPageHeader_TextColor);
     background-color: #a3cf9a;
     filter: none;
     background-image: none;
-    
+    font-weight: bold;
+    text-align:center
 }
+
+/* .sapMIBar.sapMHeader-CTX {
+    color: var(--sapPageHeader_TextColor);
+    background-color: #a3cf9a;
+    filter: none;
+    background-image: none;
+    font-weight: bold;
+    text-align:center
+} */
 .sapMPageEnableScrolling {
     overflow-y: auto;
     will-change: scroll-position;
@@ -216,7 +268,7 @@ VBox {
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
     gap: 10px; /* Adds space between child elements */
 }
-.profitLossStatus {
+.profitLossStatus{
     font-size: 1.5rem;
     font-weight: bold;
     color: green; /* Default color for profit */
@@ -286,4 +338,3 @@ VBox {
 .myTable .sapMBtn {
     margin-left: 0.5rem; /* Add margin between buttons */
 }
-
