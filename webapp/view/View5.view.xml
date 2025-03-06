@@ -5,16 +5,13 @@
     xmlns:viz="sap.viz.ui5.controls"
     xmlns:layout="sap.ui.layout"
     xmlns:core="sap.ui.core">
-    
     <Page>
-        <!-- Header with centered title -->
         <Bar class="topHeader">
             <contentMiddle>
                 <Text text="Welcome!" class="title" />
             </contentMiddle>
         </Bar>
 
-        <!-- Centered VBox with small box styling -->
         <VBox class="centeredBox">
         <Label text="EmployeeID" labelFor="usernameInput" />
             <Input

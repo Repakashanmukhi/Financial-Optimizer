@@ -12,7 +12,7 @@
                 <Button icon="sap-icon://nav-back" press="onNavBack" />
             </contentLeft>
             <contentMiddle>
-                <Text text="View your wallet transactions and history" class="title" />
+                <Text text="View Your Wallet Transactions And History" class="title" />
             </contentMiddle>
         </Bar>
             <VBox class="sapUiSmallMargin">

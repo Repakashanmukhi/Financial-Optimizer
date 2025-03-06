@@ -13,12 +13,11 @@
                 <Button icon="sap-icon://nav-back" press="onNavBack" />
             </contentLeft>
             <contentMiddle>
-                <Text text="Predict and manage your expenses effectively" class="title" />
+                <Text text="Predict And Manage Your Expenses Effectively" class="title" />
             </contentMiddle>
         </Bar>
         <content>
             <VBox class="sapUiSmallMargin">
-                <!-- User Expenditure Values -->
                 <Panel headerText="Spending Breakdown" expandable="true" expanded="true" id="expensePanel" class="sapUiTinyMarginBottom">
                     <VBox class="sapUiSmallMargin">
                         <Label text="Month" labelFor="month" />
@@ -32,8 +31,6 @@
                             type="Emphasized" />
                     </VBox>
                 </Panel>
-
-                <!-- Predicted Expenses Section -->
                 <Panel headerText="Predicted Expenses" expandable="true" expanded="true" id="predictedExpensesPanel" visible="false" class="sapUiTinyMarginBottom">
                     <VBox class="sapUiSmallMargin">
                         <!-- Groceries -->

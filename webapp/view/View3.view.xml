@@ -8,7 +8,7 @@
         class="sapUiResponsivePadding" showHeader="false">
         <Bar class="topHeader">
             <contentLeft><Button icon="sap-icon://nav-back" press="NavBack"></Button></contentLeft>
-            <contentMiddle><Text text="Manage your loans and check eligibility" class="title"></Text></contentMiddle>
+            <contentMiddle><Text text="Manage Your Loans And Check Eligibility" class="title"></Text></contentMiddle>
         </Bar>
         <headerContent>
             <!-- Search Field -->
@@ -36,6 +36,12 @@
                         <Title text="Bank Details" level="H2" />
                         <ToolbarSpacer ></ToolbarSpacer>
                         <ComboBox items="{unique>/aBank}" showClearIcon="true" selectionChange="onBankType" id="bankType" placeholder="Bank Type">
+                            <items>
+                                <core:Item text="{unique>}" key="{unique>}"></core:Item>
+                            </items>
+                        </ComboBox>
+
+                        <ComboBox items="{unique>/aLoan}" showClearIcon="true" selectionChange="onLoanType" id="loanType" placeholder="Loan Type">
                             <items>
                                 <core:Item text="{unique>}" key="{unique>}"></core:Item>
                             </items>
@@ -97,11 +103,8 @@
                 <Label text="Total Repayable Amount" />
                 <Text id="repay" class="sapUiSmallMarginBottom sapUiSmallMarginLeft" />
             </VBox>
-          
-                <Button text="Send Quotation" type="Emphasized" press=".sendDialog" />
-                <Button text="Close" type="Emphasized" press=".closeDialog" />
-
-           
+            <Button text="Send Quotation" type="Emphasized" press="send" />
+            <Button text="Close" type="Emphasized" press="closeDialog" />
         </Dialog>
         </content>
     </Page>
