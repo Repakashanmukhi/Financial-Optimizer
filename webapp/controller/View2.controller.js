@@ -6,7 +6,6 @@ sap.ui.define([
 
     return Controller.extend("financialhub.controller.View2", {
         onInit: function () {
-            // Initialize model with default values
             var oModel = new sap.ui.model.json.JSONModel({
                 month: "",
                 salary: 0,
@@ -20,10 +19,10 @@ sap.ui.define([
                 financialStatus: "",
                 suggestions: "",
                 expenseData: [],
-                monthlyData: [], // Initialize empty array for monthly data
-                months: [] // Initialize empty array for saved monthly data
+                monthlyData: [],
+                months: [] 
             });
-            this.getOwnerComponent().setModel(oModel, "sharedModel"); // Set as a named model
+            this.getOwnerComponent().setModel(oModel, "sharedModel"); 
             this.getView().setModel(oModel);
 
             var oExpensesModel = new sap.ui.model.json.JSONModel({
@@ -39,28 +38,24 @@ sap.ui.define([
             var month = oView.byId("month").getValue();
             var salary = parseFloat(oModel.getProperty("/salary")) || 0;
 
-            // Define percentage ranges for each category
             var groceriesRange = { min: 0.18, max: 0.22 };
             var hospitalityRange = { min: 0.07, max: 0.09 };
             var entertainmentRange = { min: 0.08, max: 0.12 };
             var variableExpensesRange = { min: 0.04, max: 0.06 };
             var billPaymentsRange = { min: 0.2, max: 0.3 };
 
-            // Calculate predicted values
             var predictedGroceries = salary * ((groceriesRange.min + groceriesRange.max) / 2);
             var predictedHospitality = salary * ((hospitalityRange.min + hospitalityRange.max) / 2);
             var predictedEntertainment = salary * ((entertainmentRange.min + entertainmentRange.max) / 2);
             var predictedVariableExpenses = salary * ((variableExpensesRange.min + variableExpensesRange.max) / 2);
             var predictedBillPayments = salary * ((billPaymentsRange.min + billPaymentsRange.max) / 2);
 
-            // Set predicted values to the model
             oModel.setProperty("/groceries", predictedGroceries);
             oModel.setProperty("/hospitality", predictedHospitality);
             oModel.setProperty("/entertainment", predictedEntertainment);
             oModel.setProperty("/variableExpenses", predictedVariableExpenses);
             oModel.setProperty("/billPayments", predictedBillPayments);
 
-            // Calculate totals and update UI
             this.calculateTotals();
             this.byId("predictedExpensesPanel").setVisible(true);
             this.byId("chartPanel").setVisible(true);
@@ -87,12 +82,10 @@ sap.ui.define([
             var variableExpenses = parseFloat(oModel.getProperty("/variableExpenses")) || 0;
             var billPayments = parseFloat(oModel.getProperty("/billPayments")) || 0;
 
-            // Calculate total expenses and remaining salary
             var totalExpenses = groceries + hospitality + entertainment + variableExpenses + billPayments;
             var remainingSalary = salary - totalExpenses;
             var remainingPercentage = (remainingSalary / salary) * 100;
 
-            // Determine financial status and suggestions
             var financialStatus = "";
             var suggestions = "";
             if (remainingPercentage <= 15) {
@@ -131,7 +124,6 @@ sap.ui.define([
                 "remainingSalary": remainingSalary
             });
 
-            // Update model
             oModel.setProperty("/totalExpenses", totalExpenses);
             oModel.setProperty("/remainingSalary", remainingSalary);
             oModel.setProperty("/financialStatus", financialStatus);
@@ -156,13 +148,11 @@ sap.ui.define([
             var oModel = this.getView().getModel();
             var oData = oModel.getData();
 
-            // Validate input fields
             if (!oData.month || !oData.salary || oData.totalExpenses === undefined) {
                 MessageBox.error("Please fill in all required fields.");
                 return;
             }
 
-            // Check for duplicate month
             var isDuplicate = oData.months.some(function (entry) {
                 return entry.month === oData.month;
             });
@@ -172,7 +162,6 @@ sap.ui.define([
                 return;
             }
 
-            // Save the data
             var newEntry = {
                 month: oData.month,
                 salary: oData.salary,
@@ -190,7 +179,7 @@ sap.ui.define([
         onNavBack: function () {
             var oView = this.getView();
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            oRouter.navTo("View1"); // Replace with your route name
+            oRouter.navTo("View1"); 
             this.byId("predictedExpensesPanel").setExpanded(false);
             this.byId("chartPanel").setExpanded(false);
             this.byId("statusPanel").setExpanded(false);
